@@ -10,17 +10,13 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { Form, FormControl, FormField, FormItem, FormMessage } from '@/components/ui/form';
 import React from 'react';
 import Link from 'next/link';
-
-// Define form schema for validation
-const formSchema = z.object({
-        name: z.string().min(1, { message: 'Name is required' }),
-        email: z.string().email({ message: 'Invalid email address' }),
-        password: z.string().min(8, { message: 'Password must be at least 8 characters' }).max(256),
-});
+import { signUpSchema } from '../schema';
+import { useSignUp } from '../api/use-signup';
 
 export const SignUpCard = () => {
-        const form = useForm<z.infer<typeof formSchema>>({
-                resolver: zodResolver(formSchema),
+        const { mutate } = useSignUp();
+        const form = useForm<z.infer<typeof signUpSchema>>({
+                resolver: zodResolver(signUpSchema),
                 defaultValues: {
                         name: '',
                         email: '',
@@ -28,7 +24,8 @@ export const SignUpCard = () => {
                 },
         });
 
-        const onSubmit = (values: z.infer<typeof formSchema>) => {
+        const onSubmit = (values: z.infer<typeof signUpSchema>) => {
+                mutate({ json: values });
                 console.log(values);
         };
 

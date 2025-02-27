@@ -9,23 +9,21 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Form, FormControl, FormField, FormItem, FormMessage } from '@/components/ui/form';
 import Link from 'next/link';
-
-const formSchema = z.object({
-        email: z.string().email({ message: 'Invalid email address' }),
-        password: z.string().min(8, { message: 'Password must be at least 8 characters' }).max(256),
-});
+import { signInSchema } from '../schema';
+import { useSignIn } from '../api/use-signin';
 
 export const SignInCard = () => {
-        const form = useForm<z.infer<typeof formSchema>>({
-                resolver: zodResolver(formSchema),
+        const { mutate } = useSignIn();
+        const form = useForm<z.infer<typeof signInSchema>>({
+                resolver: zodResolver(signInSchema),
                 defaultValues: {
                         email: '',
                         password: '',
                 },
         });
 
-        const onSubmit = (values: z.infer<typeof formSchema>) => {
-                console.log(values);
+        const onSubmit = (values: z.infer<typeof signInSchema>) => {
+                mutate({ json: values });
         };
 
         return (
