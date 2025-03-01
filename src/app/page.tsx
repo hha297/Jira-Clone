@@ -1,25 +1,24 @@
+'use client';
 import { Button } from '@/components/ui/button';
+import { useCurrentUser } from '@/features/auth/api/use-current';
+import { useSignOut } from '@/features/auth/api/use-signout';
+import { useRouter } from 'next/navigation';
+import { useEffect } from 'react';
 
 export default function Home() {
-        return (
-                <div className="flex flex-col gap-4 p-6">
-                        <div className="grid grid-cols-3 gap-4">
-                                <Button variant="primary">Primary</Button>
-                                <Button variant="destructive">Destructive</Button>
-                                <Button variant="outline">Outline</Button>
-                                <Button variant="secondary">Secondary</Button>
-                                <Button variant="ghost">Ghost</Button>
-                                <Button variant="muted">Muted</Button>
-                                <Button variant="teritary">Teritary</Button>
-                        </div>
+        const router = useRouter();
+        const { data, isLoading } = useCurrentUser();
+        const { mutate } = useSignOut();
 
-                        <div className="grid grid-cols-5 gap-4">
-                                <Button size="xs">XS</Button>
-                                <Button size="sm">SM</Button>
-                                <Button size="default">Default</Button>
-                                <Button size="lg">LG</Button>
-                                <Button size="icon">Icon</Button>
-                        </div>
+        useEffect(() => {
+                if (!data && !isLoading) {
+                        router.push('/sign-in');
+                }
+        }, [data]);
+        return (
+                <div>
+                        Only visible for authenticated users
+                        <Button onClick={() => mutate()}>Sign Out</Button>
                 </div>
         );
 }
