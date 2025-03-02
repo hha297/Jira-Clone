@@ -1,3 +1,4 @@
+'use client';
 import { FcGoogle } from 'react-icons/fc';
 import { FaGithub } from 'react-icons/fa';
 import { DottedSeparator } from '@/components/dotted-separator';
@@ -13,7 +14,7 @@ import { signInSchema } from '../schema';
 import { useSignIn } from '../api/use-signin';
 
 export const SignInCard = () => {
-        const { mutate } = useSignIn();
+        const { mutate, isPending } = useSignIn();
         const form = useForm<z.infer<typeof signInSchema>>({
                 resolver: zodResolver(signInSchema),
                 defaultValues: {
@@ -73,7 +74,7 @@ export const SignInCard = () => {
                                                         )}
                                                 />
 
-                                                <Button disabled={false} size="lg" className="w-full">
+                                                <Button disabled={isPending} size="lg" className="w-full">
                                                         Sign In
                                                 </Button>
                                         </form>
@@ -83,11 +84,11 @@ export const SignInCard = () => {
                                 <DottedSeparator />
                         </div>
                         <CardContent className="p-7 flex flex-col gap-y-4">
-                                <Button variant={'secondary'} size={'lg'} className="w-full" disabled={false}>
+                                <Button variant={'secondary'} size={'lg'} className="w-full" disabled={isPending}>
                                         <FcGoogle className="size-5 mr-1" />
                                         Sign In with Google
                                 </Button>
-                                <Button variant={'secondary'} size={'lg'} className="w-full" disabled={false}>
+                                <Button variant={'secondary'} size={'lg'} className="w-full" disabled={isPending}>
                                         <FaGithub className="size-5 mr-1" />
                                         Sign In with Github
                                 </Button>

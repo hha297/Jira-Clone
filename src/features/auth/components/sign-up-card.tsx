@@ -1,3 +1,5 @@
+'use client';
+
 import { FcGoogle } from 'react-icons/fc';
 import { FaGithub } from 'react-icons/fa';
 import { DottedSeparator } from '@/components/dotted-separator';
@@ -14,7 +16,7 @@ import { signUpSchema } from '../schema';
 import { useSignUp } from '../api/use-signup';
 
 export const SignUpCard = () => {
-        const { mutate } = useSignUp();
+        const { mutate, isPending } = useSignUp();
         const form = useForm<z.infer<typeof signUpSchema>>({
                 resolver: zodResolver(signUpSchema),
                 defaultValues: {
@@ -104,7 +106,7 @@ export const SignUpCard = () => {
                                                         )}
                                                 />
 
-                                                <Button disabled={false} size="lg" className="w-full">
+                                                <Button disabled={isPending} size="lg" className="w-full">
                                                         Sign Up
                                                 </Button>
                                         </form>
@@ -114,11 +116,11 @@ export const SignUpCard = () => {
                                 <DottedSeparator />
                         </div>
                         <CardContent className="p-7 flex flex-col gap-y-4">
-                                <Button variant={'secondary'} size={'lg'} className="w-full" disabled={false}>
+                                <Button variant={'secondary'} size={'lg'} className="w-full" disabled={isPending}>
                                         <FcGoogle className="size-5 mr-1" />
                                         Sign Up with Google
                                 </Button>
-                                <Button variant={'secondary'} size={'lg'} className="w-full" disabled={false}>
+                                <Button variant={'secondary'} size={'lg'} className="w-full" disabled={isPending}>
                                         <FaGithub className="size-5 mr-1" />
                                         Sign Up with Github
                                 </Button>
