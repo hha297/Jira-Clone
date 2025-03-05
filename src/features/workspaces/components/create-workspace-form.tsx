@@ -9,6 +9,10 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { useCreateWorkspace } from '../api/use-create-workspace';
+import { useRef } from 'react';
+import { ImageIcon } from 'lucide-react';
+import Image from 'next/image';
+import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 
 interface CreateWorkspaceFormProps {
         onCancel?: () => void;
@@ -16,6 +20,7 @@ interface CreateWorkspaceFormProps {
 
 export const CreateWorkspaceForm = ({ onCancel }: CreateWorkspaceFormProps) => {
         const { mutate, isPending } = useCreateWorkspace();
+        const inputRef = useRef<HTMLInputElement>(null);
 
         const form = useForm<z.infer<typeof createWorkspaceSchema>>({
                 resolver: zodResolver(createWorkspaceSchema),
@@ -25,7 +30,27 @@ export const CreateWorkspaceForm = ({ onCancel }: CreateWorkspaceFormProps) => {
         });
 
         const onSubmit = (values: z.infer<typeof createWorkspaceSchema>) => {
-                mutate({ json: values });
+                const finalValues = {
+                        ...values,
+                        images: values.image instanceof File ? values.image : '',
+                };
+                mutate(
+                        { form: finalValues },
+                        {
+                                onSuccess: () => {
+                                        form.reset();
+                                        // TODO: Redirect to the workspace page
+                                },
+                        },
+                );
+        };
+
+        const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+                const file = e.target.files?.[0];
+                if (file) {
+                        form.setValue('image', file);
+                }
+                console.log(file);
         };
 
         return (
@@ -56,6 +81,80 @@ export const CreateWorkspaceForm = ({ onCancel }: CreateWorkspaceFormProps) => {
                                                                                 </FormControl>
                                                                                 <FormMessage />
                                                                         </FormItem>
+                                                                )}
+                                                        />
+                                                        <FormField
+                                                                name="image"
+                                                                control={form.control}
+                                                                render={({ field }) => (
+                                                                        <div className="flex flex-col gap-y-2 pt-4">
+                                                                                <div className="flex items-center gap-x-5">
+                                                                                        {field.value ? (
+                                                                                                <div className="size-20 relative rounded-md overflow-hidden">
+                                                                                                        <Image
+                                                                                                                src={
+                                                                                                                        field.value instanceof
+                                                                                                                        File
+                                                                                                                                ? URL.createObjectURL(
+                                                                                                                                          field.value,
+                                                                                                                                  )
+                                                                                                                                : field.value
+                                                                                                                }
+                                                                                                                fill
+                                                                                                                className="object-cover"
+                                                                                                                alt="Image"
+                                                                                                        />
+                                                                                                </div>
+                                                                                        ) : (
+                                                                                                <div>
+                                                                                                        <Avatar className="size-20">
+                                                                                                                <AvatarFallback>
+                                                                                                                        <ImageIcon className="size-10 text-neutral-400" />
+                                                                                                                </AvatarFallback>
+                                                                                                        </Avatar>
+                                                                                                </div>
+                                                                                        )}
+                                                                                        <div className="flex flex-col gap-y-2">
+                                                                                                <p className="text-sm">
+                                                                                                        Workspace Icon
+                                                                                                </p>
+                                                                                                {/* Fix here if something changes after trial pro plan expired */}
+                                                                                                <p className="text-sm text-muted-foreground">
+                                                                                                        Supported all
+                                                                                                        image formats.
+                                                                                                        Max size: 5GB
+                                                                                                </p>
+                                                                                                <input
+                                                                                                        className="hidden"
+                                                                                                        type="file"
+                                                                                                        accept="image/*"
+                                                                                                        ref={inputRef}
+                                                                                                        disabled={
+                                                                                                                isPending
+                                                                                                        }
+                                                                                                        onChange={
+                                                                                                                handleImageChange
+                                                                                                        }
+                                                                                                />
+                                                                                                <Button
+                                                                                                        type="button"
+                                                                                                        disabled={
+                                                                                                                isPending
+                                                                                                        }
+                                                                                                        variant={
+                                                                                                                'teritary'
+                                                                                                        }
+                                                                                                        size={'sm'}
+                                                                                                        className="w-fit mt-2"
+                                                                                                        onClick={() =>
+                                                                                                                inputRef.current?.click()
+                                                                                                        }
+                                                                                                >
+                                                                                                        Upload Image
+                                                                                                </Button>
+                                                                                        </div>
+                                                                                </div>
+                                                                        </div>
                                                                 )}
                                                         />
                                                 </div>
