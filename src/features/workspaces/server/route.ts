@@ -16,8 +16,8 @@ const app = new Hono()
                         Query.equal('userId', user.$id),
                 ]);
 
-                if (!members || !Array.isArray(members.documents) || !members.documents.length) {
-                        return c.json({ data: { document: [], total: 0 } });
+                if (members.total === 0) {
+                        return c.json({ data: { documents: [], total: 0 } });
                 }
 
                 const workspaceIds = members.documents.map((member) => member.workspaceId);
