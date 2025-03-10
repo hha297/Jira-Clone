@@ -1,5 +1,5 @@
 import { getCurrent } from '@/features/auth/action';
-import { getWorkspace } from '@/features/workspaces/action';
+import { getWorkspaces } from '@/features/workspaces/action';
 
 import { redirect } from 'next/navigation';
 
@@ -9,7 +9,7 @@ export default async function Home() {
                 redirect('/sign-in');
         }
 
-        const workspaces = await getWorkspace();
+        const workspaces = await getWorkspaces();
         if (workspaces.total === 0) {
                 redirect('/workspaces/create');
         } else {

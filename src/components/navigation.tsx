@@ -1,12 +1,15 @@
+'use client';
+import { useWorkspaceId } from '@/features/workspaces/hooks/use-workspace-id';
 import { cn } from '@/lib/utils';
 import { SettingsIcon, UsersIcon } from 'lucide-react';
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 import { GoCheckCircle, GoCheckCircleFill, GoHome, GoHomeFill } from 'react-icons/go';
 
 const routes = [
         {
                 label: 'Home',
-                href: '/',
+                href: '',
                 icon: GoHome,
                 activeIcon: GoHomeFill,
         },
@@ -31,13 +34,16 @@ const routes = [
 ];
 
 export const Navigation = () => {
+        const workspaceId = useWorkspaceId();
+        const pathname = usePathname();
         return (
                 <ul className="flex flex-col">
                         {routes.map((item) => {
-                                const isActive = false;
+                                const fullHref = `/workspaces/${workspaceId}${item.href}`;
+                                const isActive = pathname === fullHref;
                                 const Icon = isActive ? item.activeIcon : item.icon;
                                 return (
-                                        <Link key={item.href} href={item.href}>
+                                        <Link key={item.href} href={fullHref}>
                                                 <div
                                                         className={cn(
                                                                 'flex items-center gap-3 p-3 rounded-md font-medium hover:text-primary transition text-neutral-500',
@@ -46,7 +52,7 @@ export const Navigation = () => {
                                                         )}
                                                 >
                                                         <Icon className="size-5 text-neutral-500" />
-                                                        {item.label}
+                                                        <p className="mt-1">{item.label}</p>
                                                 </div>
                                         </Link>
                                 );
