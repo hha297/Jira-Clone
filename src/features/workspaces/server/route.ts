@@ -7,6 +7,8 @@ import { ID, Query } from 'node-appwrite';
 import { MemberRole } from '@/features/members/type';
 import { generateInviteCode } from '@/lib/utils';
 import { getMember } from '@/features/members/utils';
+import { z } from 'zod';
+import { Workspace } from '../type';
 
 const app = new Hono()
         .get('/', sessionMiddleware, async (c) => {
@@ -122,5 +124,43 @@ const app = new Hono()
                 });
 
                 return c.json({ data: workspace });
-        });
+        })
+        .post(
+                '/:workspaceId/join',
+                sessionMiddleware,
+                zValidator('json', z.object({ inviteCode: z.string() })),
+                async (c) => {
+                        const { workspaceId } = c.req.param();
+                        const { inviteCode } = c.req.valid('json');
+
+                        const databases = c.get('databases');
+                        const user = c.get('user');
+
+                        const member = await getMember({ databases, workspaceId, userId: user.$id });
+                        // User is already a member of the workspace
+                        if (member) {
+                                return c.json({ error: 'User is already a member of the workspace' }, 400);
+                        }
+
+                        const workspace = await databases.getDocument<Workspace>(
+                                DATABASE_ID,
+                                WORKSPACES_ID,
+                                workspaceId,
+                        );
+                        if (!workspace) {
+                                return c.json({ error: 'Workspace not found' }, 404);
+                        }
+
+                        if (workspace.inviteCode !== inviteCode) {
+                                return c.json({ error: 'Invalid invite code' }, 400);
+                        }
+                        //TODO: Add the user to the workspace
+                        await databases.createDocument(DATABASE_ID, MEMBERS_ID, ID.unique(), {
+                                userId: user.$id,
+                                workspaceId,
+                                role: MemberRole.MEMBER,
+                        });
+                        return c.json({ data: workspace });
+                },
+        );
 export default app;
