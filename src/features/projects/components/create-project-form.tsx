@@ -45,10 +45,10 @@ export const CreateProjectForm = ({ onCancel }: CreateProjectFormProps) => {
                 mutate(
                         { form: finalValues },
                         {
-                                onSuccess: () => {
+                                onSuccess: ({ data }) => {
                                         form.reset();
                                         // TODO: redirect to project page
-                                        router.refresh();
+                                        router.push(`/workspaces/${workspaceId}/projects/${data.$id}`);
                                 },
                         },
                 );
@@ -59,7 +59,6 @@ export const CreateProjectForm = ({ onCancel }: CreateProjectFormProps) => {
                 if (file) {
                         form.setValue('image', file);
                 }
-                console.log(file);
         };
 
         return (
@@ -131,7 +130,7 @@ export const CreateProjectForm = ({ onCancel }: CreateProjectFormProps) => {
                                                                                                 <p className="text-sm text-muted-foreground">
                                                                                                         Supported all
                                                                                                         image formats.
-                                                                                                        Max size: 5GB
+                                                                                                        Max Size: 5MB
                                                                                                 </p>
                                                                                                 <input
                                                                                                         className="hidden"

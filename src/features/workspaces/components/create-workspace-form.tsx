@@ -125,7 +125,7 @@ export const CreateWorkspaceForm = ({ onCancel }: CreateWorkspaceFormProps) => {
                                                                                                 <p className="text-sm text-muted-foreground">
                                                                                                         Supported all
                                                                                                         image formats.
-                                                                                                        Max size: 5GB
+                                                                                                        Max Size: 5MB
                                                                                                 </p>
                                                                                                 <input
                                                                                                         className="hidden"
