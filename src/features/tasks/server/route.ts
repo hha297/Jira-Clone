@@ -1,4 +1,3 @@
-import { projects } from '@/features/projects/server/route';
 import { sessionMiddleware } from '@/lib/session-middleware';
 import { zValidator } from '@hono/zod-validator';
 import { Hono } from 'hono';

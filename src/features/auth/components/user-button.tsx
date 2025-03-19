@@ -17,8 +17,8 @@ export const UserButton = () => {
         const { mutate: signOut } = useSignOut();
         if (isLoading)
                 return (
-                        <div className="size-10 rounded-full flex items-center justify-center bg-neutral-200 border border-neutral-300">
-                                <Loader className="size-4 animate-spin text-muted-foreground" />
+                        <div className="size-10 rounded-full flex items-center justify-center bg-blue-500 border border-neutral-300">
+                                <Loader className="size-4 animate-spin text-white" />
                         </div>
                 );
         if (!user) return null;
@@ -29,7 +29,7 @@ export const UserButton = () => {
                 <DropdownMenu modal={false}>
                         <DropdownMenuTrigger className="outline-none relative">
                                 <Avatar className=" size-10 hover:opacity-75 transition border border-neutral-100">
-                                        <AvatarFallback className="bg-neutral-200 font-medium text-neutral-500 flex items-center justify-center">
+                                        <AvatarFallback className="bg-blue-500 font-medium text-white flex items-center justify-center">
                                                 {avatarFallback}
                                         </AvatarFallback>
                                 </Avatar>
@@ -37,7 +37,7 @@ export const UserButton = () => {
                         <DropdownMenuContent align="end" side="bottom" className="w-60" sideOffset={10}>
                                 <div className="flex flex-col items-center justify-center gap-2 px-2 py-4">
                                         <Avatar className=" size-20  transition border border-neutral-100">
-                                                <AvatarFallback className="bg-neutral-200 text-xl font-medium text-neutral-500 flex items-center justify-center">
+                                                <AvatarFallback className="bg-blue-500 text-5xl font-medium text-white flex items-center justify-center">
                                                         {avatarFallback}
                                                 </AvatarFallback>
                                         </Avatar>

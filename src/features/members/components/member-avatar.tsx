@@ -12,7 +12,7 @@ export const MemberAvatar = ({ fallbackClassName, name, className }: MemberAvata
                 <Avatar className={cn('size-5 transition border border-neutral-300 rounded-full', className)}>
                         <AvatarFallback
                                 className={cn(
-                                        'bg-neutral-200 font-medium text-neutral-500 flex items-center justify-center',
+                                        'bg-blue-500 font-medium text-white flex items-center justify-center',
                                         fallbackClassName,
                                 )}
                         >
