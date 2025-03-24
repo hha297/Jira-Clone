@@ -46,7 +46,7 @@ export const MemberList = () => {
                         { param: { memberId } },
                         {
                                 onSuccess: () => {
-                                        toast.success('Member removed successfully');
+                                        toast.success('Member removed ');
                                         window.location.reload();
                                 },
                         },

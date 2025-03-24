@@ -16,7 +16,7 @@ export const useDeleteMember = () => {
                         return await response.json();
                 },
                 onSuccess: () => {
-                        toast.success('Member removed successfully');
+                        toast.success('Member removed ');
                         queryClient.invalidateQueries({ queryKey: ['members'] });
                 },
                 onError: () => {

@@ -16,7 +16,7 @@ export const useUpdateMember = () => {
                         return await response.json();
                 },
                 onSuccess: () => {
-                        toast.success('Member updated successfully');
+                        toast.success('Member updated ');
                         queryClient.invalidateQueries({ queryKey: ['members'] });
                 },
                 onError: () => {
