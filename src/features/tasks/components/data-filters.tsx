@@ -97,27 +97,29 @@ export const DataFilters = ({ hideProjectFilter }: DataFiltersProps) => {
                                         ))}
                                 </SelectContent>
                         </Select>
-                        <Select
-                                defaultValue={projectId ?? undefined}
-                                onValueChange={(value) => onProjectChange(value)}
-                                disabled={isLoading}
-                        >
-                                <SelectTrigger className="w-full lg:w-auto h-8">
-                                        <div className="flex items-center pr-2">
-                                                <FolderIcon className="size-4 mr-2" />
-                                                <SelectValue placeholder="All Projects" />
-                                        </div>
-                                </SelectTrigger>
-                                <SelectContent>
-                                        <SelectItem value="all">All projects</SelectItem>
-                                        <DottedSeparator />
-                                        {projectOptions.map((member) => (
-                                                <SelectItem key={member.id} value={member.id}>
-                                                        <span>{member.name}</span>
-                                                </SelectItem>
-                                        ))}
-                                </SelectContent>
-                        </Select>
+                        {!hideProjectFilter && (
+                                <Select
+                                        defaultValue={projectId ?? undefined}
+                                        onValueChange={(value) => onProjectChange(value)}
+                                        disabled={isLoading}
+                                >
+                                        <SelectTrigger className="w-full lg:w-auto h-8">
+                                                <div className="flex items-center pr-2">
+                                                        <FolderIcon className="size-4 mr-2" />
+                                                        <SelectValue placeholder="All Projects" />
+                                                </div>
+                                        </SelectTrigger>
+                                        <SelectContent>
+                                                <SelectItem value="all">All projects</SelectItem>
+                                                <DottedSeparator />
+                                                {projectOptions.map((member) => (
+                                                        <SelectItem key={member.id} value={member.id}>
+                                                                <span>{member.name}</span>
+                                                        </SelectItem>
+                                                ))}
+                                        </SelectContent>
+                                </Select>
+                        )}
                         <DatePicker
                                 placeholder="Due date"
                                 className="h-8 w-full lg:w-auto"

@@ -45,12 +45,17 @@ export const columns: ColumnDef<Task>[] = [
                         );
                 },
                 cell: ({ row }) => {
-                        const project = row.original.name;
+                        const project = row.original.project;
+                        console.log(project);
 
                         return (
                                 <div className="flex items-center gap-x-2 text-sm font-medium">
-                                        <ProjectAvatar name={project} />
-                                        {project}
+                                        <ProjectAvatar
+                                                className="size-6"
+                                                name={project.name}
+                                                image={project.imageUrl}
+                                        />
+                                        <p className="line-clamp-1">{project.name}</p>
                                 </div>
                         );
                 },
