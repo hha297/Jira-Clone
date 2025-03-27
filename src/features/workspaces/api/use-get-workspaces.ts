@@ -1,16 +1,11 @@
 import { client } from '@/lib/rpc';
 import { useQuery } from '@tanstack/react-query';
 
-interface UseGetProjectProps {
-        workspaceId: string;
-}
-export const useGetWorkspace = ({ workspaceId }: UseGetProjectProps) => {
+export const useGetWorkspaces = () => {
         const query = useQuery({
-                queryKey: ['workspaces', workspaceId],
+                queryKey: ['workspace'],
                 queryFn: async () => {
-                        const response = await client.api.workspaces[':workspaceId'].$get({
-                                param: { workspaceId },
-                        });
+                        const response = await client.api.workspaces.$get();
 
                         if (!response.ok) {
                                 throw new Error('Failed to get workspace');

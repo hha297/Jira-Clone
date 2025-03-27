@@ -52,14 +52,7 @@ export const EditProjectForm = ({ onCancel, initialValues }: EditProjectFormProp
                         ...values,
                         images: values.image instanceof File ? values.image : '',
                 };
-                mutate(
-                        { form: finalValues, param: { projectId: initialValues.$id } },
-                        {
-                                onSuccess: () => {
-                                        form.reset();
-                                },
-                        },
-                );
+                mutate({ form: finalValues, param: { projectId: initialValues.$id } });
         };
 
         const handleDelete = async () => {
