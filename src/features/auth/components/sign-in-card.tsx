@@ -12,6 +12,7 @@ import { Form, FormControl, FormField, FormItem, FormMessage } from '@/component
 import Link from 'next/link';
 import { signInSchema } from '../schema';
 import { useSignIn } from '../api/use-signin';
+import { signUpWithGithub, signUpWithGoogle } from '@/lib/oauth';
 
 export const SignInCard = () => {
         const { mutate, isPending } = useSignIn();
@@ -84,11 +85,23 @@ export const SignInCard = () => {
                                 <DottedSeparator />
                         </div>
                         <CardContent className="p-7 flex flex-col gap-y-4">
-                                <Button variant={'secondary'} size={'lg'} className="w-full" disabled={isPending}>
+                                <Button
+                                        variant={'secondary'}
+                                        size={'lg'}
+                                        className="w-full"
+                                        disabled={isPending}
+                                        onClick={() => signUpWithGoogle()}
+                                >
                                         <FcGoogle className="size-5 mr-1" />
                                         Sign In with Google
                                 </Button>
-                                <Button variant={'secondary'} size={'lg'} className="w-full" disabled={isPending}>
+                                <Button
+                                        variant={'secondary'}
+                                        size={'lg'}
+                                        className="w-full"
+                                        disabled={isPending}
+                                        onClick={() => signUpWithGithub()}
+                                >
                                         <FaGithub className="size-5 mr-1" />
                                         Sign In with Github
                                 </Button>

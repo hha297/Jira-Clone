@@ -14,6 +14,7 @@ import React from 'react';
 import Link from 'next/link';
 import { signUpSchema } from '../schema';
 import { useSignUp } from '../api/use-signup';
+import { signUpWithGithub, signUpWithGoogle } from '@/lib/oauth';
 
 export const SignUpCard = () => {
         const { mutate, isPending } = useSignUp();
@@ -116,11 +117,23 @@ export const SignUpCard = () => {
                                 <DottedSeparator />
                         </div>
                         <CardContent className="p-7 flex flex-col gap-y-4">
-                                <Button variant={'secondary'} size={'lg'} className="w-full" disabled={isPending}>
+                                <Button
+                                        variant={'secondary'}
+                                        size={'lg'}
+                                        className="w-full"
+                                        disabled={isPending}
+                                        onClick={() => signUpWithGoogle()}
+                                >
                                         <FcGoogle className="size-5 mr-1" />
                                         Sign Up with Google
                                 </Button>
-                                <Button variant={'secondary'} size={'lg'} className="w-full" disabled={isPending}>
+                                <Button
+                                        variant={'secondary'}
+                                        size={'lg'}
+                                        className="w-full"
+                                        disabled={isPending}
+                                        onClick={() => signUpWithGithub()}
+                                >
                                         <FaGithub className="size-5 mr-1" />
                                         Sign Up with Github
                                 </Button>
